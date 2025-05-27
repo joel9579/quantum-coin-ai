@@ -9,3 +9,4 @@ pyarrow
 reportlab
 matplotlib
 seaborn
+openpyxl
