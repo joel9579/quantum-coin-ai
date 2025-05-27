@@ -1,11 +1,12 @@
-from fastapi import FastAPI , Request
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
 from src.app.routes import router
 from src.routes import forecast
 from src.utils.config_loader import load_config
-from src.app.static import visuals_output
+from src.app.static.visuals_output import generate_visual_dashboard
 
 # Load config files
 paths = load_config("paths.yaml")
@@ -13,11 +14,15 @@ app_config = load_config("app_config.yaml")
 
 # Initialize FastAPI app
 app = FastAPI(title="Crypto Forecast API", debug=app_config.get("debug_mode", False))
-# Include app routes
+
+# Include routers
 app.include_router(router)
 app.include_router(forecast.router)
 
-# Root UI page
+# Set up Jinja2 templates (adjust path as per Render's structure)
+templates = Jinja2Templates(directory="src/app/templates")
+
+# Root HTML UI
 @app.get("/", response_class=HTMLResponse)
 def read_root():
     return """
@@ -30,14 +35,15 @@ def read_root():
         </body>
     </html>
     """
+
+# Result page using template
 @app.get("/result", response_class=HTMLResponse)
-async def show_result(request: Request):
-    # Dummy data (replace with real prediction results)
+def show_result(request: Request):
     forecast_data = [
         {"ds": "2035-01-01", "yhat": 42000.50},
         {"ds": "2035-01-02", "yhat": 42120.75}
     ]
-    chart_base64 = "iVBORw0KGgoAAAANSUhEUg..." # Replace with actual chart base64
+    chart_base64 = "iVBORw0KGgoAAAANSUhEUg..." # Placeholder
 
     return templates.TemplateResponse("results.html", {
         "request": request,
@@ -47,15 +53,11 @@ async def show_result(request: Request):
         "chart": chart_base64
     })
 
-
-# Route: Visual dashboard (charts, growth trends)
+# Visual dashboard route
 @app.get("/visual-dashboard", response_class=HTMLResponse)
 def show_dashboard():
-    return visuals_output()
+    return generate_visual_dashboard()
 
-# Mount Static & Visuals folders
+# Mount static folders
 app.mount("/static", StaticFiles(directory=paths["static"]), name="static")
 app.mount("/visuals", StaticFiles(directory=paths["visuals"]), name="visuals")
-
-#Set up templates
-templates = Jinja2Templates(directory="crypto-forecast-app/src/app/templates")
