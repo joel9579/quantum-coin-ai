@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -22,8 +23,27 @@ app.include_router(forecast.router)
 # Set up Jinja2 templates (adjust path as per Render's structure)
 templates = Jinja2Templates(directory="src/app/templates")
 
+@app.get("/ui", response_class=HTMLResponse)
+async def homepage(request: Request):
+    data_dir = "data"
+    files = os.listdir(data_dir)
+
+    coins = []
+    for file in files:
+        if file.endswith((".csv", ".parquet")):
+            coin = os.path.splitext(file)[0].capitalize()
+            coins.append(coin)
+
+    years = list(range(2026, 2061))
+
+    return templates.TemplateResponse("ui.html", {
+        "request": request,
+        "coins": sorted(coins),
+        "years": years
+    })
+
 # Root HTML UI
-@app.get("/", response_class=HTMLResponse)
+@app.get("/ui", response_class=HTMLResponse)
 def read_root():
     return """
     <html>
