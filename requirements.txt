@@ -7,3 +7,5 @@ jinja2
 scikit-learn
 pyarrow
 reportlab
+matplotlib
+seaborn
