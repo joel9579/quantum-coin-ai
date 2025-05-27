@@ -12,3 +12,4 @@ seaborn
 openpyxl
 plotly
 python-multipart
+pyyaml
