@@ -20,49 +20,45 @@ app = FastAPI(title="Crypto Forecast API", debug=app_config.get("debug_mode", Fa
 app.include_router(router)
 app.include_router(forecast.router)
 
-# Set up Jinja2 templates (adjust path as per Render's structure)
+# Set up Jinja2 templates
 templates = Jinja2Templates(directory="src/app/templates")
 
+# Load available coins from data folders
+def get_all_coin_names():
+    csv_dir = "data/unpacked"
+    parquet_dir = "data/processed"
+
+    coins = set()
+    if os.path.exists(csv_dir):
+        for file in os.listdir(csv_dir):
+            if file.endswith(".csv"):
+                coins.add(os.path.splitext(file)[0])
+
+    if os.path.exists(parquet_dir):
+        for file in os.listdir(parquet_dir):
+            if file.endswith(".parquet"):
+                coins.add(os.path.splitext(file)[0])
+
+    return sorted(coins)
+
+# Updated /ui route with coin/year selector
 @app.get("/ui", response_class=HTMLResponse)
 async def homepage(request: Request):
-    data_dir = "data"
-    files = os.listdir(data_dir)
-
-    coins = []
-    for file in files:
-        if file.endswith((".csv", ".parquet")):
-            coin = os.path.splitext(file)[0].capitalize()
-            coins.append(coin)
-
+    coins = get_all_coin_names()
     years = list(range(2026, 2061))
 
     return templates.TemplateResponse("ui.html", {
         "request": request,
-        "coins": sorted(coins),
+        "coins": coins,
         "years": years
     })
 
-# Root HTML UI
-@app.get("/ui", response_class=HTMLResponse)
-def read_root():
-    return """
-    <html>
-        <head><title>Quantum Coin AI</title></head>
-        <body style='font-family:sans-serif;padding:2rem'>
-            <h2>Quantum Coin AI - Crypto Forecast API</h2>
-            <p>Go to <a href='/ui'>Dashboard</a> to upload files and view predictions.</p>
-            <p>Try <code>/results?coin=coin_Bitcoin&target_year=2030</code> directly.</p>
-        </body>
-    </html>
-    """
-    
+# Result prediction UI (static stub)
 @app.get("/predict", response_class=HTMLResponse)
 async def predict(coin: str, year: int):
-    # Load the CSV or Parquet file and generate prediction
-    # Show result or chart here
     return HTMLResponse(content=f"<h2>{coin} Prediction for {year}</h2>")
 
-# Result page using template
+# Result page using a template
 @app.get("/result", response_class=HTMLResponse)
 def show_result(request: Request):
     forecast_data = [
