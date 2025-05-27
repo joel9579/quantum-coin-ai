@@ -55,6 +55,12 @@ def read_root():
         </body>
     </html>
     """
+    
+@app.get("/predict", response_class=HTMLResponse)
+async def predict(coin: str, year: int):
+    # Load the CSV or Parquet file and generate prediction
+    # Show result or chart here
+    return HTMLResponse(content=f"<h2>{coin} Prediction for {year}</h2>")
 
 # Result page using template
 @app.get("/result", response_class=HTMLResponse)
