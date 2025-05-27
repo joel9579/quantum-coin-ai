@@ -1,0 +1,8 @@
+data: "data/unpacked"
+model: "src/models"
+report: "reports/forecasts"
+static: "src/app/static"
+templates: "src/app/templates"
+visuals: "reports/visuals"
+routes: "src/routes"
+forecast: "reports/forecast"

@@ -1,0 +1,11 @@
+cryptocurrencies:
+  - coin_Bitcoin
+  - coin_Ethereum
+  - coin_Cardano
+  - coin_Solana
+  - coin_Ripple
+  - coin_Polkadot
+  - coin_Litecoin
+  - coin_Avalanche
+  - coin_Chainlink
+  - coin_Quant

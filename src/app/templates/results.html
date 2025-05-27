@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ coin.replace('coin_', '') | capitalize }} Forecast</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    .download-buttons a {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body class="container mt-5">
+
+  <h2>{{ coin.replace('coin_', '') | capitalize }} Price Forecast to {{ target_year }}</h2>
+
+  <div class="row mt-4">
+    <div class="col-md-12 text-center">
+      <img src="data:image/png;base64,{{ chart }}" class="img-fluid mb-4" alt="Forecast Chart">
+      <img src="{{ url_for('static', filename='logo.png') }}" width="120">
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-bordered table-striped table-sm">
+        <thead class="table-light">
+          <tr>
+            <th>Date</th>
+            <th>Predicted Price (USD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in forecast %}
+          <tr>
+            <td>{{ row['ds'] }}</td>
+            <td>${{ row['yhat'] | round(2) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row download-buttons mt-4">
+    <div class="col-md-12">
+      <a href="/download/excel?coin={{ coin }}&year={{ target_year }}" class="btn btn-success">Download Excel</a>
+      <a href="/download/pdf?coin={{ coin }}&year={{ target_year }}" class="btn btn-danger">Download PDF</a>
+      <a href="/ui" class="btn btn-secondary">Back</a>
+    </div>
+  </div>
+
+</body>
+</html>

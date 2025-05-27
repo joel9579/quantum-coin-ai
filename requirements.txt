@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pandas
+prophet
+joblib
+jinja2
+scikit-learn
+pyarrow
+reportlab

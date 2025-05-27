@@ -1,0 +1,5 @@
+debug_mode: true
+default_forecast_years: 10
+default_coin: "Bitcoin"
+allowed_years: [2030, 2040, 2050]
+port: 8000
