@@ -16,7 +16,7 @@ from src.models.predict_future import predict_coin_price
 router = APIRouter()
 templates = Jinja2Templates(directory="src/app/templates")
 
-@app.get("/", response_class=HTMLResponse)
+@router.get("/", response_class=HTMLResponse)
 async def landing_page():
     return """
     <!DOCTYPE html>
