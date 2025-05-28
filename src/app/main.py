@@ -3,6 +3,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 
 from src.app.routes import router
 from src.routes import forecast
@@ -41,6 +42,10 @@ def get_all_coin_names():
 
     return sorted(coins)
 
+@app.get("/")
+async def root():
+    return RedirectResponse(url="/ui")
+    
 # Updated /ui route with coin/year selector
 @app.get("/ui", response_class=HTMLResponse)
 async def homepage(request: Request):
