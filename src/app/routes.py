@@ -83,10 +83,6 @@ def list_coins():
 def get_allowed_years():
     return {"years":[2026, 2030, 2040, 2050]}
 
-@router.post("/predict")
-async def predict(request: PredictRequest):
-    result = predict_coin_price(request.coin, request.target_year)
-    return result 
     
 # 3. Visual Dashboard
 @router.get("/visual-dashboard", response_class=HTMLResponse)
@@ -117,7 +113,6 @@ def show_results(request: Request, coin: str, target_year: int):
 class PredictRequest(BaseModel):
     coin: str
     target_year: int
-
 
 @router.post("/predict")
 async def predict(request: PredictRequest):
