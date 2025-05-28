@@ -80,8 +80,8 @@ def list_coins():
     return {"coins": get_available_coins()}
 
 @router.get("/api/years")
-def get_years():
-    return JSONResponse(content={"years":[2026,2030,2040,2050]})
+def get_allowed_years():
+    return {"years":[2026,2030,2040,2050]}
 
 # 3. Visual Dashboard
 @router.get("/visual-dashboard", response_class=HTMLResponse)
