@@ -87,5 +87,5 @@ def show_dashboard():
     return generate_visual_dashboard()
 
 # Mount static folders
-app.mount("/static", StaticFiles(directory=paths["src/app/static"]), name="static")
+app.mount("/static", StaticFiles(directory=paths["static"]), name="static")
 app.mount("/visuals", StaticFiles(directory=paths["visuals"]), name="visuals")
