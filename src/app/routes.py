@@ -79,9 +79,9 @@ def home_ui(request: Request):
 def list_coins():
     return {"coins": get_available_coins()}
 
-@router.get("/api/years")
+@router.get("/years")
 def get_allowed_years():
-    return {"years":[2026,2030,2040,2050]}
+    return {"years":[2026, 2030, 2040, 2050]}
 
 # 3. Visual Dashboard
 @router.get("/visual-dashboard", response_class=HTMLResponse)
