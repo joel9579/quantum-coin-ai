@@ -73,11 +73,15 @@ def home_ui(request: Request):
     })
 
 
-# 2. Coin list API (used for dynamic dropdowns)
+# 2. Coin and Years list API (used for dynamic dropdowns)
 @router.get("/coins")
 def list_coins():
     return {"coins": get_available_coins()}
 
+@router.get("/years")
+def get_allowed_years():
+    current_year = datetime.now().year
+    return [current_year + i for i in [1, 5, 15, 25]]
 
 # 3. Visual Dashboard
 @router.get("/visual-dashboard", response_class=HTMLResponse)
