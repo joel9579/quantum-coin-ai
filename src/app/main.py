@@ -18,7 +18,7 @@ app_config = load_config("app_config.yaml")
 app = FastAPI(title="Crypto Forecast API", debug=app_config.get("debug_mode", False))
 
 # Include routers
-app.include_router(router)
+app.include_router(router, prefix="/api")
 app.include_router(forecast.router)
 
 # Set up Jinja2 templates
