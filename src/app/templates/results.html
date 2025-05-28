@@ -12,19 +12,19 @@
 </head>
 <body class="container mt-5">
 
-  <h2>{{ coin.replace('coin_', '') | capitalize }} Price Forecast to {{ target_year }}</h2>
+  <h2 class="text-center">{{ coin.replace('coin_', '') | capitalize }} Price Forecast to {{ target_year }}</h2>
 
   <div class="row mt-4">
     <div class="col-md-12 text-center">
       <img src="data:image/png;base64,{{ chart }}" class="img-fluid mb-4" alt="Forecast Chart">
-      <img src="{{ url_for('static', filename='logo.png') }}" width="120">
-
+      <br>
+      <img src="{{ url_for('static', filename='logo.png') }}" width="100" alt="Logo">
     </div>
   </div>
 
-  <div class="row">
+  <div class="row mt-4">
     <div class="col-md-12">
-      <table class="table table-bordered table-striped table-sm">
+      <table class="table table-bordered table-hover table-sm">
         <thead class="table-light">
           <tr>
             <th>Date</th>
@@ -44,7 +44,7 @@
   </div>
 
   <div class="row download-buttons mt-4">
-    <div class="col-md-12">
+    <div class="col-md-12 text-center">
       <a href="/download/excel?coin={{ coin }}&year={{ target_year }}" class="btn btn-success">Download Excel</a>
       <a href="/download/pdf?coin={{ coin }}&year={{ target_year }}" class="btn btn-danger">Download PDF</a>
       <a href="/ui" class="btn btn-secondary">Back</a>
