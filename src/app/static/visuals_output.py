@@ -9,8 +9,7 @@ from fastapi import Request
 BASE_DIR = os.path.dirname(__file__)
 FORECAST_DIR = os.path.join(BASE_DIR, "reports/forecast")
 OUTPUT_DIR = os.path.join(BASE_DIR, "reports/visuals")
-UNPACKED_DIR = os.path.join(os.path.join(BASE_DIR, "../../../data/unpacked"))
-
+UNPACKED_DIR = os.path.join(BASE_DIR, "../../../data/unpacked")
 
 # Create output folder
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -19,7 +18,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 def generate_forecast_trend(coin):
     file_path = os.path.join(FORECAST_DIR, f"{coin}_forecast.csv")
     df = pd.read_csv(file_path, parse_dates=["ds"])
-    
+
     plt.figure(figsize=(10, 5))
     plt.plot(df["ds"], df["yhat"], label="Forecast", color="darkgreen")
     plt.fill_between(df["ds"], df["yhat_lower"], df["yhat_upper"], color="lightgreen", alpha=0.4)
@@ -52,16 +51,20 @@ def generate_correlation_matrix():
     data_frames = []
     for file in os.listdir(UNPACKED_DIR):
         if not file.endswith(".csv"):
-         continue
-    try:
-        coin = file.replace(".csv", "")
-        path = os.path.join(UNPACKED_DIR, file)
-        df = pd.read_csv(path, usecols=["Date", "Close"])
-        df.rename(columns={"Close": coin, "Date": "ds"}, inplace=True)
-        df["ds"] = pd.to_datetime(df["ds"])
-        data_frames.append(df)
-    except ValueError as e:
-        print(f"Skipping {file}: {e}")
+            continue
+        try:
+            coin = file.replace(".csv", "")
+            path = os.path.join(UNPACKED_DIR, file)
+            df = pd.read_csv(path, usecols=["Date", "Close"])
+            df.rename(columns={"Close": coin, "Date": "ds"}, inplace=True)
+            df["ds"] = pd.to_datetime(df["ds"])
+            data_frames.append(df)
+        except ValueError as e:
+            print(f"Skipping {file}: {e}")
+
+    if not data_frames:
+        print("No valid files for correlation matrix.")
+        return
 
     merged = data_frames[0]
     for df in data_frames[1:]:
@@ -77,12 +80,11 @@ def generate_correlation_matrix():
     plt.savefig(os.path.join(OUTPUT_DIR, "coin_correlation_matrix.png"))
     plt.close()
 
+# Jinja Templates for Dashboard
 templates = Jinja2Templates(directory="src/app/templates")
 
 def generate_visual_dashboard(request: Request):
-    import os
     import re
-
     VISUALS_DIR = os.path.abspath("src/app/static/reports/visuals")
     files = [f for f in os.listdir(VISUALS_DIR) if f.endswith(".png")]
 
@@ -111,3 +113,4 @@ if __name__ == "__main__":
 
     generate_correlation_matrix()
     print(f"Visuals saved in: {OUTPUT_DIR}")
+
