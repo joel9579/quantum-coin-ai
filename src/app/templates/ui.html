@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Quantum Coin AI</title>
+  <title>Quantum Coin AI - Predict</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f7f9fb;
+    }
+    h1 {
+      color: #2b2d42;
+    }
+    label, select, button {
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    .results {
+      margin-top: 30px;
+    }
+    .charts img {
+      max-width: 100%;
+      height: auto;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .downloads a {
+      display: inline-block;
+      margin-right: 15px;
+      padding: 8px 12px;
+      background-color: #1d3557;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to Quantum Coin AI</h1>
+  <h1>Quantum Coin AI – Prediction Module</h1>
 
   <label>Select Coin:</label>
   <select id="coinSelect"></select>
@@ -14,7 +47,24 @@
 
   <button onclick="predict()">Generate Prediction</button>
 
-  <p id="response"></p>
+  <div class="results" id="results" style="display:none;">
+    <h2>Prediction Results</h2>
+    
+    <div class="charts">
+      <h3>Forecast Trend</h3>
+      <img id="forecastChart" src="" alt="Forecast Chart">
+      
+      <h3>Actual vs Predicted</h3>
+      <img id="overlayChart" src="" alt="Overlay Chart">
+    </div>
+
+    <div class="downloads">
+      <h3>Download Reports:</h3>
+      <a id="csvLink" href="#" download>Download CSV</a>
+      <a id="excelLink" href="#" download>Download Excel</a>
+      <a id="pdfLink" href="#" download>Download PDF</a>
+    </div>
+  </div>
 
   <script>
     // Load coins
@@ -23,9 +73,9 @@
       .then(data => {
         const select = document.getElementById('coinSelect');
         data.coins.forEach(coin => {
-          let option = document.createElement('option');
+          const option = document.createElement('option');
           option.value = coin;
-          option.text = coin;
+          option.text = coin.replace("coin_", "").toUpperCase();
           select.appendChild(option);
         });
       });
@@ -36,7 +86,7 @@
       .then(data => {
         const select = document.getElementById('yearSelect');
         data.years.forEach(year => {
-          let option = document.createElement('option');
+          const option = document.createElement('option');
           option.value = year;
           option.text = year;
           select.appendChild(option);
@@ -54,7 +104,18 @@
       })
       .then(res => res.json())
       .then(data => {
-        document.getElementById('response').innerText = JSON.stringify(data);
+        if (data.status === "success") {
+          document.getElementById('results').style.display = 'block';
+
+          document.getElementById('forecastChart').src = data.chart;
+          document.getElementById('overlayChart').src = data.overlay_chart;
+
+          document.getElementById('csvLink').href = data.csv;
+          document.getElementById('excelLink').href = data.excel;
+          document.getElementById('pdfLink').href = data.pdf;
+        } else {
+          alert("Error: " + data.message);
+        }
       });
     }
   </script>
