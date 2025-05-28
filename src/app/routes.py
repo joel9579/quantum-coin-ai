@@ -1,6 +1,7 @@
 import os
 from fastapi import APIRouter, Request, UploadFile, File, Form
 from fastapi.responses import HTMLResponse
+from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from io import BytesIO
@@ -78,10 +79,9 @@ def home_ui(request: Request):
 def list_coins():
     return {"coins": get_available_coins()}
 
-@router.get("/years")
-def get_allowed_years():
-    current_year = datetime.now().year
-    return [current_year + i for i in [1, 5, 15, 25]]
+@router.get("/api/years")
+def get_years():
+    return JSONResponse(content={"years":[2026,2030,2040,2050]})
 
 # 3. Visual Dashboard
 @router.get("/visual-dashboard", response_class=HTMLResponse)
