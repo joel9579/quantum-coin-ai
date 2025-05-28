@@ -16,6 +16,30 @@ from src.models.predict_future import predict_coin_price
 router = APIRouter()
 templates = Jinja2Templates(directory="src/app/templates")
 
+@app.get("/", response_class=HTMLResponse)
+async def landing_page():
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Quantum Coin AI</title>
+      <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+      <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+        h1 { color: #4B0082; }
+        a { padding: 10px 20px; text-decoration: none; background-color: #4B0082; color: white; border-radius: 5px; }
+        a:hover { background-color: #5D3FD3; }
+      </style>
+    </head>
+    <body>
+      <img src="/static/logo.png" alt="Quantum Coin AI" width="100">
+      <h1>Welcome to Quantum Coin AI</h1>
+      <p>Predict cryptocurrency trends with AI forecasting tools.</p>
+      <a href="/ui">Go to Dashboard</a>
+    </body>
+    </html>
+    """
+
 
 # Load all coin names from both CSV and Parquet
 def get_available_coins():
