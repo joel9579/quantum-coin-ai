@@ -1,4 +1,5 @@
 import os
+import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -21,6 +22,10 @@ app = FastAPI(title="Crypto Forecast API", debug=app_config.get("debug_mode", Fa
 app.include_router(router)
 app.include_router(router, prefix="/api")
 app.include_router(forecast.router)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000)) # fallback to 10000 for local dev
+    uvicorn.run("src.app.main:app", host="0.0.0.0", port=port, reload=True)
 
 # Set up Jinja2 templates
 templates = Jinja2Templates(directory="src/app/templates")
