@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Upload from './pages/Upload';
-import Predict from './pages/Predict';
+import Predict from './pages/Prediction';
 import About from './pages/About';
 
 function App() {
