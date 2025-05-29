@@ -1,14 +1,40 @@
 {
+  "version": 2,
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build",
+        "cleanUrls": true
+      }
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "https://your-render-backend.com/api/$1",
+      "methods": ["GET", "POST"]
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/public/static/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/public/index.html"
+      "dest": "/$1",
+      "continue": true
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "status": 200
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
     }
   ]
 }
