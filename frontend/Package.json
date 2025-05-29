@@ -14,13 +14,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  }
-},
-"browserslist": {
+    "eject": "react-scripts eject",
+    "vercel-build": "npm run build"  // Required for Vercel deployment
+  },
+  "browserslist": {
     "production": [
       ">0.2%",
       "not dead",
@@ -33,4 +30,3 @@
     ]
   }
 }
-
