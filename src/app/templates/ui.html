@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Quantum Coin AI - Predict</title>
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -38,8 +39,7 @@
 </head>
 <body>
   <h1>Quantum Coin AI – Prediction Module</h1>
-<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-  
+
   <label>Select Coin:</label>
   <select id="coinSelect"></select>
 
@@ -50,11 +50,11 @@
 
   <div class="results" id="results" style="display:none;">
     <h2>Prediction Results</h2>
-    
+   
     <div class="charts">
       <h3>Forecast Trend</h3>
       <img id="forecastChart" src="" alt="Forecast Chart">
-      
+     
       <h3>Actual vs Predicted</h3>
       <img id="overlayChart" src="" alt="Overlay Chart">
     </div>
@@ -101,22 +101,27 @@
       fetch('/api/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ coin: coin, year: parseInt(year) })
+        body: JSON.stringify({ coin: coin, target_year: parseInt(year) })
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "success") {
-          document.getElementById('results').style.display = 'block';
-
-          document.getElementById('forecastChart').src = data.chart;
-          document.getElementById('overlayChart').src = data.overlay_chart;
-
-          document.getElementById('csvLink').href = data.csv;
-          document.getElementById('excelLink').href = data.excel;
-          document.getElementById('pdfLink').href = data.pdf;
-        } else {
-          alert("Error: " + data.message);
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`Server error: ${res.status}`);
         }
+        return res.json();
+      })
+      .then(data => {
+        const forecast = data.forecast;
+
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('forecastChart').src = "data:image/png;base64," + forecast.chart;
+        document.getElementById('overlayChart').src = "data:image/png;base64," + forecast.overlay_chart;
+
+        document.getElementById('csvLink').href = forecast.csv;
+        document.getElementById('excelLink').href = forecast.excel;
+        document.getElementById('pdfLink').href = forecast.pdf;
+      })
+      .catch(err => {
+        alert("Error: " + err.message);
       });
     }
   </script>
