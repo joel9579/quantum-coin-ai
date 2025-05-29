@@ -15,7 +15,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "vercel-build": "npm run build"  // Required for Vercel deployment
+    "vercel-build": "npm run build" 
   },
   "browserslist": {
     "production": [
