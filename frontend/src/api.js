@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-fetch('${API_URL}/predict',...)
+// Use environment variable if available, or default to the deployed Render URL
 const api = axios.create({
-  baseURL: 'http://localhost:8000', // or your FastAPI server URL
+  baseURL: process.env.REACT_APP_API_BASE || 'https://quantum-coin-api.onrender.com',
 });
 
 export default api;
