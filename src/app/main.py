@@ -19,18 +19,21 @@ app_config = load_config("app_config.yaml")
 # Initialize FastAPI app
 app = FastAPI(title="Crypto Forecast API", debug=app_config.get("debug_mode", False))
 
-# Include routers
-app.include_router(router, prefix="/api")
-app.include_router(forecast.router)
-origins = ["https://quantum-coin-ai.vercel.app",
-               "http://localhost:3000"], # or restrict to frontend URL
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[
+        "http://localhost:3000",
+        "https://quantum-coin-ai.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include routers
+app.include_router(router, prefix="/api")
+app.include_router(forecast.router)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000)) # fallback to 10000 for local dev
