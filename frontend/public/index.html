@@ -1,80 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quantum Coin AI</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-900 text-white font-sans">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quantum Coin AI — Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Optional: Custom Styles -->
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body class="bg-gray-100 text-gray-800 min-h-screen">
 
-  <!-- Navbar -->
-  <nav class="bg-gray-800 shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="text-2xl font-bold text-indigo-400">Quantum Coin AI</div>
-      <div class="space-x-6">
-        <a href="#" class="hover:text-indigo-300">Home</a>
-        <a href="#dashboard" class="hover:text-indigo-300">Dashboard</a>
-        <a href="#predict" class="hover:text-indigo-300">Predictions</a>
-        <a href="#upload" class="hover:text-indigo-300">Upload</a>
-        <a href="#about" class="hover:text-indigo-300">About</a>
+    <!-- Header -->
+    <header class="bg-indigo-700 text-white py-4 shadow-md">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Quantum Coin AI</h1>
+        <nav>
+          <ul class="flex gap-6 text-sm">
+            <li><a href="/" class="hover:underline">Dashboard</a></li>
+            <li><a href="/about" class="hover:underline">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+      <div class="bg-white p-6 rounded-2xl shadow-md max-w-3xl mx-auto">
+        <h2 class="text-xl font-semibold mb-6">Forecast Dashboard</h2>
+
+        <!-- Forecast Form -->
+        <form action="/results" method="get" id="forecastForm" class="space-y-4">
+          <div>
+            <label for="coin" class="block font-medium mb-1">Select Coin</label>
+            <select name="coin" id="coin" class="w-full border border-gray-300 rounded px-3 py-2">
+              {% for c in coins %}
+                <option value="{{ c }}">{{ c.replace('coin_', '') }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div>
+            <label for="target_year" class="block font-medium mb-1">Forecast up to Year</label>
+            <select name="target_year" id="target_year" class="w-full border border-gray-300 rounded px-3 py-2">
+              {% for year in allowed_years %}
+                <option value="{{ year }}">{{ year }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="flex gap-4 mt-4">
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+              Generate Forecast
+            </button>
+            <button type="button" onclick="previewForecast()" class="bg-gray-100 border border-gray-300 px-4 py-2 rounded hover:bg-gray-200">
+              Preview Raw JSON
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="previewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div class="bg-white p-6 rounded-lg max-w-2xl w-full overflow-y-auto max-h-[80vh]">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold">Forecast Preview (Raw JSON)</h3>
+          <button onclick="closeModal()" class="text-gray-600 hover:text-red-500 text-xl font-bold">&times;</button>
+        </div>
+        <pre id="previewOutput" class="bg-gray-100 p-3 rounded overflow-auto text-sm"></pre>
+        <div class="text-right mt-4">
+          <button onclick="closeModal()" class="px-4 py-2 border rounded hover:bg-gray-100">Close</button>
+        </div>
       </div>
     </div>
-  </nav>
 
-  <!-- Hero Section -->
-  <section class="text-center py-20 bg-gradient-to-b from-gray-900 to-gray-800">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">AI-Driven Crypto Forecasts</h1>
-    <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-      Predict the future of Bitcoin, Ethereum, and top altcoins with Quantum Coin AI's advanced machine learning models.
-    </p>
-    <a href="#predict" class="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-3 rounded-full font-semibold transition">Start Predicting</a>
-  </section>
+    <!-- Forecast Preview Script -->
+    <script>
+      async function previewForecast() {
+        const coin = document.getElementById("coin").value;
+        const year = document.getElementById("target_year").value;
 
-  <!-- Trending Coins -->
-  <section class="py-16 bg-gray-800" id="trending">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-2xl font-bold mb-10 text-center text-indigo-300">Trending Coins</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-        <div class="bg-gray-700 p-6 rounded-lg shadow hover:shadow-xl transition">
-          <h3 class="text-xl font-semibold text-white">Bitcoin</h3>
-          <p class="text-gray-400">BTC</p>
-        </div>
-        <div class="bg-gray-700 p-6 rounded-lg shadow hover:shadow-xl transition">
-          <h3 class="text-xl font-semibold text-white">Ethereum</h3>
-          <p class="text-gray-400">ETH</p>
-        </div>
-        <div class="bg-gray-700 p-6 rounded-lg shadow hover:shadow-xl transition">
-          <h3 class="text-xl font-semibold text-white">Solana</h3>
-          <p class="text-gray-400">SOL</p>
-        </div>
-        <div class="bg-gray-700 p-6 rounded-lg shadow hover:shadow-xl transition">
-          <h3 class="text-xl font-semibold text-white">Cardano</h3>
-          <p class="text-gray-400">ADA</p>
-        </div>
-      </div>
-    </div>
-  </section>
+        const res = await fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ coin: coin, target_year: year })
+        });
 
-  <!-- CTA Prediction Section -->
-  <section class="py-20 bg-gray-900 text-center" id="predict">
-    <h2 class="text-3xl font-bold mb-6">Forecast Any Coin</h2>
-    <p class="text-gray-400 mb-8">Select a coin, pick a year, and get future price trends instantly.</p>
-    <a href="/predict.html" class="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-3 rounded-full font-semibold transition">Go to Forecast</a>
-  </section>
+        const data = await res.json();
+        const preview = JSON.stringify(data.forecast.slice(0, 5), null, 2); // show 5
+        document.getElementById("previewOutput").textContent = preview;
+        document.getElementById("previewModal").classList.remove("hidden");
+      }
 
-  <!-- Visual Dashboard Section -->
-  <section class="py-20 bg-gray-800 text-center" id="dashboard">
-    <h2 class="text-3xl font-bold mb-6 text-indigo-300">Visual Dashboard</h2>
-    <p class="text-gray-400 mb-8">View yearly trends, actual vs predicted charts, and coin comparisons.</p>
-    <a href="/dashboard.html" class="bg-white text-indigo-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition">Open Dashboard</a>
-  </section>
+      function closeModal() {
+        document.getElementById("previewModal").classList.add("hidden");
+      }
+    </script>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-center py-6 border-t border-gray-700">
-    <p class="text-gray-500">© 2025 Quantum Coin AI • All Rights Reserved</p>
-  </footer>
-
-</body>
+  </body>
 </html>
-Displaying favicon_io.zip.
