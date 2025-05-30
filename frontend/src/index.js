@@ -1,11 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './app';
-import './styles/index.css'; // Tailwind + Bootstrap
+import App from './App';
+import './styles/index.css'; // Tailwind + custom styles (optional)
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const rootElement = document.getElementById('root');
+
+if (!rootElement) {
+  console.error("❌ Couldn't find element with id 'root'. Make sure your index.html has <div id='root'></div>");
+} else {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+}
