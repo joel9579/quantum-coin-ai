@@ -125,8 +125,8 @@ async def predict(request: PredictRequest):
 
 
 # 6. Visuals API for images
-@router.get("/visuals-data")
-def get_visuals_data():
+@router.get("/visual-data")
+def get_visual_data():
     return {
         "coin_visuals": {
             "coin_Bitcoin": {
