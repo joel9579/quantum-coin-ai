@@ -26,12 +26,12 @@ function Dashboard() {
         <div key={coin} className="mb-5">
           <h5 className="text-primary">{coin.replace("coin_", "")}</h5>
           <img
-            src={coinVisuals[coin].trend}
+            src={'https://quantum-coin-api.onrender.com{coinVisuals[coin].trend}'}
             alt={`${coin} trend`}
             className="img-fluid mb-3 shadow-sm"
           />
           <img
-            src={coinVisuals[coin].summary}
+            src={'https://quantum-coin-api.onrender.com{coinVisuals[coin].summary}'}
             alt={`${coin} summary`}
             className="img-fluid shadow-sm"
           />
