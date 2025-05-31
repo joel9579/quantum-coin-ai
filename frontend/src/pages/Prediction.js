@@ -11,7 +11,7 @@ function Prediction() {
   useEffect(() => {
     const fetchCoins = async () => {
       try {
-        const res = await axios.get('/coins');
+        const res = await axios.get('https://quantum-coin-api.onrender.com/api/coins');
         setCoinList(res.data.coins);
         setCoin(res.data.coins[0]);
       } catch (err) {
@@ -23,7 +23,7 @@ function Prediction() {
 
   const handlePredict = async () => {
     try {
-      const res = await axios.post('/predict', {
+      const res = await axios.post('https://quantum-coin-api.onrender.com/predict', {
         coin: coin,
         target_year: parseInt(year)
       });
