@@ -8,7 +8,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchVisuals = async () => {
       try {
-        const res = await axios.get('https://quantum-coin-api.onrender.com/visual-data'); // Your FastAPI route
+        const res = await axios.get('https://quantum-coin-api.onrender.com/api/visual-data'); // Your FastAPI route
         setCoinVisuals(res.data.coin_visuals);
         setCorrelationImg(res.data.correlation_img);
       } catch (err) {
