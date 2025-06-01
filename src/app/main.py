@@ -23,14 +23,19 @@ app = FastAPI(title="Crypto Forecast API", debug=app_config.get("debug_mode", Fa
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://quantum-coin-ai.vercel.app",
+                "http://localhost",
+                "http://localhost:3000",
         
-        "http://localhost:3000"
+        "https://quantum-coin-ai.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount static folders
+app.mount("/static", StaticFiles(directory=paths["static"]), name="static")
+app.mount("/visuals", StaticFiles(directory=paths["visuals"]), name="visuals")
 
 # Include routers
 app.include_router(router, prefix="/api")
@@ -105,6 +110,4 @@ def show_result(request: Request):
 def show_dashboard():
     return generate_visual_dashboard()
 
-# Mount static folders
-app.mount("/static", StaticFiles(directory=paths["static"]), name="static")
-app.mount("/visuals", StaticFiles(directory=paths["visuals"]), name="visuals")
+
