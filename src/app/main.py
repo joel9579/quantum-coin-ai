@@ -11,6 +11,7 @@ from src.app.routes import router
 from src.routes import forecast
 from src.utils.config_loader import load_config
 from src.app.static.visuals_output import generate_visual_dashboard
+from src.routes.forecast import router as forecast_router
 
 # Load config files
 paths = load_config("paths.yaml")
@@ -34,7 +35,7 @@ app.add_middleware(
 # Include routers
 app.include_router(router, prefix="/api")
 app.include_router(forecast.router)
-
+app.include_router(forecast_router)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000)) # fallback to 10000 for local dev
