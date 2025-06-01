@@ -26,8 +26,8 @@ def predict_coin_price(coin: str, target_year: int):
 
     if os.path.exists(parquet_path):
         df = pd.read_parquet(parquet_path)
-        if "Date" not in df.columns or "Close" not in df.columns:
-            raise ValueError("Parquet file must contain 'Date' and 'Close' columns")
+        if "date" not in df.columns or "close" not in df.columns:
+            raise ValueError("Parquet file must contain 'date' and 'close' columns")
     elif os.path.exists(base_path):
         df = pd.read_csv(base_path)
     elif os.path.exists(alt_path):
@@ -36,7 +36,7 @@ def predict_coin_price(coin: str, target_year: int):
         raise FileNotFoundError(f"No historical data found for {coin}")
 
     # Prepare DataFrame
-    df = df.rename(columns={"Date": "ds", "Close": "y"})
+    df = df.rename(columns={"date": "ds", "close": "y"})
     df["ds"] = pd.to_datetime(df["ds"])
     df = df[["ds", "y"]].dropna()
 
