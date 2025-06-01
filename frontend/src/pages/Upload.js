@@ -19,7 +19,7 @@ function Upload() {
     formData.append('target_year', year);
 
     try {
-      const res = await axios.post('/upload_predict', formData);
+      const res = await axios.post('https://quantum-coin-api.onrender.com/upload_predict', formData);
       setResult(res.data);
     } catch (err) {
       console.error('Upload failed', err);
