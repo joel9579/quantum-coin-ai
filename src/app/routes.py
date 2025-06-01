@@ -149,7 +149,7 @@ async def upload_predict(coin: str = Form(...), target_year: int = Form(...), fi
     contents = await file.read()
     df = pd.read_csv(BytesIO(contents))
 
-    df = df.rename(columns={"Date": "ds", "Close": "y"})
+    df = df.rename(columns={"date": "ds", "close": "y"})
     df["ds"] = pd.to_datetime(df["ds"])
     df = df[["ds", "y"]].dropna()
 
