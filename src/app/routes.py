@@ -114,7 +114,7 @@ class PredictRequest(BaseModel):
     coin: str
     target_year: int
 
-@router.post("/api/predict")
+@router.post("/predict")
 async def predict(request: PredictRequest):
     result = predict_coin_price(request.coin, request.target_year)
     return {
