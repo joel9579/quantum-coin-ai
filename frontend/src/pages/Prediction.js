@@ -23,7 +23,7 @@ function Prediction() {
 
   const handlePredict = async () => {
     try {
-      const res = await axios.post('https://quantum-coin-api.onrender.com/api/predict', {
+      const res = await axios.post('https://quantum-coin-api.onrender.com/api/predict', fromData) {
         coin: coin,
         target_year: parseInt(year)
       });
