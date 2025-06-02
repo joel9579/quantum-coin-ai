@@ -24,11 +24,10 @@ app = FastAPI(title="Crypto Forecast API", debug=app_config.get("debug_mode", Fa
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-                "http://localhost",
-                "http://localhost:3000",
+                "https://quantum-coin-ai.vercel.app", #frontend domain
         
-        "https://quantum-coin-ai.vercel.app"
-    ],
+                "http://localhost:3000", #local testing
+         ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
