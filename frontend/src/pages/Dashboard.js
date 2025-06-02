@@ -26,12 +26,12 @@ function Dashboard() {
         <div key={coin} className="mb-5">
           <h5 className="text-primary">{coin.replace("coin_", "")}</h5>
           <img
-            src={'https://quantum-coin-api.onrender.com${coinVisuals[coin].trend}'}
+            src={'https://quantum-coin-api.onrender.com${coinVisuals[coin].trend}`}
             alt={`${coin} trend`}
             className="img-fluid mb-3 shadow-sm"
           />
           <img
-            src={'https://quantum-coin-api.onrender.com${coinVisuals[coin].summary}'}
+            src={'https://quantum-coin-api.onrender.com${coinVisuals[coin].summary}`}
             alt={`${coin} summary`}
             className="img-fluid shadow-sm"
           />
@@ -42,7 +42,7 @@ function Dashboard() {
         <h5 className="mb-3">Global Correlation Matrix</h5>
         {correlationImg && (
           <img
-            src={'https://quantum-coin-api.onrender.com${correlationImg}'}
+            src={'https://quantum-coin-api.onrender.com${correlationImg}`}
             alt="Correlation Matrix"
             className="img-fluid shadow-lg"
           />
