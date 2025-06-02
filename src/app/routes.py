@@ -3,6 +3,7 @@ from fastapi import APIRouter, Request, UploadFile, File, Form
 from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
+from fastapi import HTTPException
 from pydantic import BaseModel
 from io import BytesIO
 from datetime import datetime
