@@ -7,6 +7,9 @@ export default defineConfig({
     outDir: 'dist',
   },
   server: {
+    proxy: {
+      '/api' : 'https://quantum-coin-ai.vercel.app/',
+    }
     port: 3000,
     historyApiFallback: true
   }
