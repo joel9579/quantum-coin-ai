@@ -84,7 +84,7 @@ async def homepage(request: Request):
     })
 
 # Result prediction UI (static stub)
-@app.get("/predict", response_class=HTMLResponse)
+@app.post("/predict", response_class=HTMLResponse)
 async def predict(coin: str, year: int):
     return HTMLResponse(content=f"<h2>{coin} Prediction for {year}</h2>")
 
