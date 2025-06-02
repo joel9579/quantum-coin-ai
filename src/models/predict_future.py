@@ -36,7 +36,7 @@ def predict_coin_price(coin: str, target_year: int):
         raise FileNotFoundError(f"No historical data found for {coin}")
 
     # Prepare DataFrame
-    df = df.rename(columns={"date": "ds", "close": "y"})
+    df = df.rename(columns={"Date": "ds", "Close": "y"})
     df["ds"] = pd.to_datetime(df["ds"])
     df = df[["ds", "y"]].dropna()
 
