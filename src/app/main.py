@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.app.routes import routes
 from src.app.routes import router as app_router
 from src.routes import forecast
 from src.utils.config_loader import load_config
@@ -41,6 +42,7 @@ app.mount("/visuals", StaticFiles(directory=paths["visuals"]), name="visuals")
 app.include_router(app_router, prefix="/api")
 app.include_router(forecast.router)
 app.include_router(forecast_router)
+app.include_router(routes.router,prefix="/api?")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000)) # fallback to 10000 for local dev
