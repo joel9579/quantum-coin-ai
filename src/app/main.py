@@ -8,7 +8,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.app.routes import routes
+from src.routes import routes
 from src.app.routes import router as app_router
 from src.routes import forecast
 from src.utils.config_loader import load_config
