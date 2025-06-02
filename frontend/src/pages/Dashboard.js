@@ -22,7 +22,7 @@ function Dashboard() {
     <div className="container mt-5">
       <h2 className="mb-4 text-center">Forecast Visual Dashboard</h2>
 
-      {Object.keys(coinVisuals).map((coin) => (
+      {Object.keys(coin_visuals).map((coin) => (
         <div key={coin} className="mb-5">
           <h5 className="text-primary">{coin.replace("coin_", "")}</h5>
           <img
@@ -40,7 +40,7 @@ function Dashboard() {
 
       <div className="text-center mt-5">
         <h5 className="mb-3">Global Correlation Matrix</h5>
-        {correlationImg && (
+        {correlation_img && (
           <img
             src={`https://quantum-coin-api.onrender.com${correlation_img}`}
             alt="Correlation Matrix"
