@@ -39,7 +39,7 @@ app.mount("/static", StaticFiles(directory=paths["static"]), name="static")
 app.mount("/visuals", StaticFiles(directory=paths["visuals"]), name="visuals")
 
 # Include routers
-app.include_router(router, prefix="/api")
+app.include_router(app_router, prefix="/api")
 app.include_router(forecast.router)
 app.include_router(forecast_router)
 
