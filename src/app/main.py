@@ -79,11 +79,6 @@ async def homepage(request: Request):
         "years": years
     })
 
-# Result prediction UI (static stub)
-@app.post("/predict", response_class=HTMLResponse)
-async def predict(coin: str, year: int):
-    return HTMLResponse(content=f"<h2>{coin} Prediction for {year}</h2>")
-
 # Result page using a template
 @app.get("/result", response_class=HTMLResponse)
 def show_result(request: Request):
