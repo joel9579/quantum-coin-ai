@@ -28,8 +28,8 @@ function Prediction() {
         coin: coin,
         target_year: parseInt(year)
       });
-      setForecast(res.data.forecast);
-      setChart(res.data.chart);
+      setForecast(res.data.forecast.forecast);
+      setChart(res.data.forecast.chart);
     } catch (err) {
       console.error('Prediction error', err);
       alert('Prediction failed. Please try again.');
