@@ -22,11 +22,6 @@ function App() {
         </div>
       </nav>
     
-    <div>
-      <h1 className="text-center font-bold mt-6">Forecast Dashboard</h1>
-      <ForecastForm />
-    </div>
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
