@@ -23,7 +23,7 @@
     <div class="mb-3">
       <label for="target_year" class="form-label">Forecast up to Year</label>
       <select name="target_year" id="target_year" class="form-select">
-        {% for year in allowed_years %}
+        {% for year in years %}
           <option value="{{ year }}">{{ year }}</option>
         {% endfor %}
       </select>
